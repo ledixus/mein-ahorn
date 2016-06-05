@@ -27,13 +27,19 @@
 #$(date +"%m") for the Month
 #$(date +"KW%V-%d-%m-%Y-%H%M") for KW00-Day00-Month00-Year0000-Time0000
 
+#crontab entry for this file: */10 07-19 * * * /home/pi/kamera/scripts/aufnahme.sh
 
-mkdir -p $(date +"/home/pi/kamera/pics/%Y/%m/KW%V")
 
-TEMP=$(sudo python "/home/pi/kamera/pics/dht22.py" 2032 4)°C
+mkdir -p $(date +"/home/pi/kamera/pics/%Y/KW%V")
 
-raspistill -o /home/pi/kamera/pics/tmp.jpg && sleep 10 && convert /home/pi/kamera/pics/tmp.jpg -pointsize 50 -font "Palatino-Bold" -fill white \
--gravity NorthEast -annotate +100+100 "$(date "+%V. KW %a. %d. %b %Y %H:%M")\n ${TEMP}" \
-$(date "+/home/pi/kamera/pics/%Y/%m/KW%V/%d-%m-%Y-%H_%M.jpg") && rm /home/pi/kamera/pics/tmp.jpg
 
-echo -e $? $(date +"KW%V-%d-%m-%Y-%H%M") >> /home/pi/kamera/pics/log/kamera.log
+WEATHER=$(sudo python "/home/pi/kamera/scripts/dht22.py" 2032 4)
+TMP_FILE="/home/pi/kamera/pics/tmp.jpg"
+
+
+raspistill -o "{TMP_FILE}" && sleep 10 && convert "{TMP_FILE}" -pointsize 50 -font "Verdana-Fett" \ 
+-fill "black" -stroke "black" -strokewidth 5 -gravity NorthEast -annotate +100+100 "$(date "+%V. KW %a. %d. %b %Y %H:%M")\n ${WEATHER}" \
+-fill "white" -stroke "white" -strokewidth 1 -gravity NorthEast -annotate +100+100 "$(date "+%V. KW %a. %d. %b %Y %H:%M")\n ${WEATHER}" \
+$(date "+/home/pi/kamera/pics/%Y/KW%V/%m-%d-%Y-%H_%M.jpg") && rm "{TMP_FILE}"
+
+echo -e $? $(date +"KW%V-%d-%m-%Y-%H%M") >> /home/pi/kamera/log/kamera.log

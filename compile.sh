@@ -22,6 +22,8 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #SOFTWARE.
 
+#crontab entry: 01 20 * * 0 /home/pi/kamera/scripts/compile.sh
+
 #Directories
 PIC_DIR="/home/pi/kamera/pics/$(date +%Y)/$(date +%m)"
 VID_DIR="/home/pi/kamera/videos/$(date +%Y)/$(date +%m)"
@@ -40,7 +42,6 @@ SERVER_PORT="CHANGEME"
 #Backup server
 FTP_USER="CHANGEME"
 FTP_SERVER="CHANGEME"
-FTP_PASSWD="CHANGEME"
 
 #IRC logfile
 IRC="/PATH/TO/LOGFILE/OF/THE/SIMPLE/BASHBOT"

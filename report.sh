@@ -22,9 +22,10 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #SOFTWARE.
 
+#crontab entry: 0 20 * * * /home/pi/kamera/scripts/report.sh
 
-LOGFILE="/home/pi/kamera/pics/log/kamera.log"
-FAILFILE="/home/pi/kamera/pics/log/kamera.fail"
+LOGFILE="/home/pi/kamera/log/kamera.log"
+FAILFILE="/home/pi/kamera/log/kamera.fail"
 IRC="/PATH/TO/LOGFILE/OF/THE/IRC_BASH_BOT"
 
 y=0
@@ -44,7 +45,7 @@ done
 
 if [[ "${Y}" == "0" ]]
 	then
-		echo "PRIVMSG #YOUR_IRC_CHANNEL :Ich habe "${AMOUNT}" von 78 geplanten Bildern ohne Fehlercodes gemacht" >> "${IRC}“ && rm "${LOGFILE}"
+		echo "PRIVMSG #YOUR_IRC_CHANNEL :Ich habe "${AMOUNT}" von 78 geplanten Bildern ohne Fehlercodes gemacht" >> "${IRC}" && rm "${LOGFILE}"
 	else
 		echo "PRIVMSG #YOUR_IRC_CHANNEL :Ich habe "${Y}" Fehler bei "${AMOUNT}" von 78 geplanten Bildern gemacht!!!" >> "${IRC}" && mv "${LOGFILE}" "${FAILFILE}"
 
