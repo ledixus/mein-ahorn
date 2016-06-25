@@ -22,7 +22,7 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #SOFTWARE.
 
-#crontab entry: 01 20 * * 0 /home/pi/kamera/scripts/compile.sh
+#crontab entry: 01 22 * * 0 /home/pi/kamera/scripts/compile.sh
 
 #Directories
 PIC_DIR="/home/pi/kamera/pics/$(date +%Y)/$(date +%m)"
@@ -92,11 +92,11 @@ makevideos()
 
 		echo "PRIVMSG #CHANNEL_OF_YOUR_BOT : Rendere das "${VID_720}" Video" >> "${IRC}"
 
-		ffmpeg -r 4 -f image2 -pattern_type glob -i "${PIC_DIR}/$(date "+KW%V")/*.jpg" -c:v libx264 -crf 20 -vf scale=-1:720 -threads 0 -an -sn -pix_fmt yuv420p -preset slow "${VID_720}" && \ 
+		/usr/local/bin/ffmpeg -nostdin -r 4 -f image2 -pattern_type glob -i "${PIC_DIR}/$(date "+KW%V")/*.jpg" -c:v libx264 -crf 20 -vf scale=-1:720 -threads 0 -an -sn -pix_fmt yuv420p -preset slow "${VID_720}" && \ 
 
 		echo "PRIVMSG #CHANNEL_OF_YOUR_BOT : "${VID_720}" erfolgreich gerendert. Rendere "${VID_1080}" Video." >> "${IRC}"
 
-		ffmpeg -r 4 -f image2 -pattern_type glob -i "${PIC_DIR}/$(date "+KW%V")/*.jpg" -c:v libx264 -crf 20 -vf scale=-1:1080 -threads 0 -an -sn -pix_fmt yuv420p -preset slow "${VID_1080}"
+		/usr/local/bin/ffmpeg -nostdin -r 4 -f image2 -pattern_type glob -i "${PIC_DIR}/$(date "+KW%V")/*.jpg" -c:v libx264 -crf 20 -vf scale=-1:1080 -threads 0 -an -sn -pix_fmt yuv420p -preset slow "${VID_1080}"
 
 		echo "PRIVMSG #CHANNEL_OF_YOUR_BOT : "${VID_1080}" erfolgreich gerendert." >> "${IRC}"
 fi
@@ -114,7 +114,8 @@ uploadvideos()
 	else
 		echo "PRIVMSG #CHANNEL_OF_YOUR_BOT : Füge die "${VID_720}" und "${VID_1080}" zum "${ARCHIVE_FILE}" Archiv hinzu." >> "${IRC}"
 
-		tar -rf "${ARCHIVE_FILE}" "${VID_720}" "${VID_1080}" && \
+		tar -rf "${ARCHIVE_FILE}" "${VID_720}"
+		tar -rf "${ARCHIVE_FILE}" "${VID_1080}"
 
 		echo "PRIVMSG #CHANNEL_OF_YOUR_BOT : Erstellung "${ARCHIVE_FILE}" Archiv abgeschlossen, beginne mit Upload auf Backupspace." >> "${IRC}"
 		sftp "${FTP_USER}"@"${FTP_SERVER}" <<EOF

@@ -27,7 +27,7 @@
 #$(date +"%m") for the Month
 #$(date +"KW%V-%d-%m-%Y-%H%M") for KW00-Day00-Month00-Year0000-Time0000
 
-#crontab entry for this file: */10 07-19 * * * /home/pi/kamera/scripts/aufnahme.sh
+#crontab entry for this file: */10 05-21 * * * /home/pi/kamera/scripts/aufnahme.sh
 
 
 mkdir -p $(date +"/home/pi/kamera/pics/%Y/KW%V")
